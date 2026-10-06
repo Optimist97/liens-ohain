@@ -1,0 +1,8 @@
+project_id = "liens-ohain-local"
+[functions.reminders]
+verify_jwt = false
+# The function checks a dedicated, nonpublic REMINDERS_SECRET bearer token.
+
+[functions.family-accounts]
+verify_jwt = false
+# Public password login; administrative actions verify the JWT and family role internally.
