@@ -1,0 +1,10 @@
+'use client';
+import { useState,type FormEvent } from 'react';
+import { Heart,Check,ShieldCheck } from 'lucide-react';
+import { Button } from './ui/button';
+import { supabase } from '@/lib/supabase';
+export function FamilySetup({onCreated,error}:{onCreated:()=>Promise<void>;error:string}){
+ const [busy,setBusy]=useState(false);const [failure,setFailure]=useState('');const token=typeof window!=='undefined'?new URLSearchParams(location.search).get('invitation'):null;
+ async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setFailure('');const f=new FormData(e.currentTarget);try{const {error}=await supabase!.rpc('setup_family',{p_action:token?'join':'create',p_payload:token?{token,name:f.get('name')}:{name:f.get('name'),patientName:'Papa'}});if(error)throw error;await onCreated()}catch(e){setFailure((e as Error).message)}finally{setBusy(false)}}
+ return <main className="auth"><div className="brand"><Heart/> lien ohain<span className="brand-dot">.</span></div><section className="card"><span className="eyebrow">VOTRE CERCLE FAMILIAL</span><h1>{token?'Rejoindre la famille':'Créer votre dossier'}</h1><p className="muted">{token?'Votre invitation donne accès au dossier partagé.':'Vous pourrez inviter trois proches à vous rejoindre.'}</p><form onSubmit={submit}><label>Votre prénom<input name="name" required maxLength={80} autoComplete="given-name"/></label>{!token&&<p className="muted">Le dossier utilise l’appellation « Papa ». Aucun nom du proche n’est demandé.</p>}<p className="setup-privacy"><ShieldCheck size={18}/> Le dossier est réservé aux membres que vous invitez.</p><Button className="wide" disabled={busy}><Check size={17}/>{token?'Accepter l’invitation':'Créer le dossier familial'}</Button></form>{failure&&<p role="alert" className="error">{failure}</p>}<button className="text-link" onClick={()=>void supabase?.auth.signOut()}>Se déconnecter</button></section>{error&&!error.includes('pas encore rattaché')&&<p className="error">{error}</p>}</main>
+}
