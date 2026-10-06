@@ -51,3 +51,6 @@
 @media print{.modal{overflow:visible;display:block}.modal-body{overflow:visible;padding:0}.modal-header{padding:0;border:0}}
 
 .mobile-signout{display:none}@media(max-width:700px){.mobile-signout{display:flex;align-items:center;gap:5px;min-height:44px;padding:6px;font-size:.72rem}.topbar{padding:0 12px}.topbar-actions{flex-wrap:wrap}.private-badge{display:none}.account-select{display:none}}
+
+.planning-actions,.planning-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:0}.planning-tabs{margin:16px 0}.planning-actions .button{max-width:100%;white-space:normal}.visits-list .visit-row-name{min-width:0;flex:1}.visit-row .planning-actions{margin-left:auto}.visit-row-name span{overflow-wrap:anywhere}
+@media(max-width:700px){.visit-row .planning-actions{width:100%;margin-left:0}.planning-tabs>*{flex:1;min-width:0}.planning-actions>*{flex:1;white-space:normal}.section-title .planning-actions{width:100%}}
