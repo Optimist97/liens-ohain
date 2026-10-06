@@ -1,0 +1,1 @@
+export default function Loading(){return <main className="loading-page" aria-busy="true" aria-label="Chargement de votre espace"><div className="skeleton" style={{height:44,width:200}}/><div className="skeleton" style={{height:120}}/><div className="skeleton" style={{height:320}}/></main>}
