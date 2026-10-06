@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {localDate,rotate,sundayDates,validateTimes} from '../lib/domain';
+const demoState=()=>({caregivers:Array.from({length:4},(_,i)=>({id:String(i),name:'Test '+i,initial:'T',color:i,role:'aidant' as const}))});
+test('rotation gives every caregiver three of twelve Sundays',()=>{const s=demoState();const visits=rotate(sundayDates('2026-10-06',12),s.caregivers,[]);for(const c of s.caregivers)assert.equal(visits.filter(v=>v.caregiverId===c.id).length,3);assert.equal(visits[0].date,'2026-10-11')});
+test('unavailability is respected and the distribution stays fair',()=>{const s=demoState();const dates=sundayDates('2026-10-06',12);const visits=rotate(dates,s.caregivers,[{date:dates[0],caregiverId:'0'}]);assert.notEqual(visits[0].caregiverId,'0');const counts=s.caregivers.map(c=>visits.filter(v=>v.caregiverId===c.id).length);assert.ok(Math.max(...counts)-Math.min(...counts)<=1)});
+test('no availability leaves an explicit unassigned Sunday',()=>{const s=demoState();const date='2026-10-11';assert.equal(rotate([date],s.caregivers,s.caregivers.map(c=>({date,caregiverId:c.id})))[0].caregiverId,'')});
+test('hours are validated, deduplicated and sorted',()=>{assert.deepEqual(validateTimes('20:00, 08:00;12:00 08:00'),['08:00','12:00','20:00'])});
+test('invalid hours and empty schedules are rejected',()=>{for(const value of ['','24:00','8:00','12:61','12:00,texte'])assert.throws(()=>validateTimes(value))});
+test('day uses Brussels even across midnight UTC',()=>{assert.equal(localDate(new Date('2026-10-06T22:30:00Z')),'2026-10-07');assert.equal(localDate(new Date('2026-12-06T23:30:00Z')),'2026-12-07')});
