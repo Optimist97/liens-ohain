@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+playwright-report/
+test-results/
+out/
+.local/
+*.ods
+*.xlsx
+docs/*.jpg
+docs/*.png
