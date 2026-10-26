@@ -1,5 +1,9 @@
 name: Supabase activity check
 
+# Objectif : envoyer une requête RPC légère au projet pour réduire le risque de pause pour inactivité.
+# Fréquence : deux exécutions par jour, à 09:17 et 16:17 UTC. GitHub peut décaler une exécution planifiée.
+# Limite : Supabase ne garantit pas qu'un nombre précis de requêtes empêchera la mise en pause.
+# Données : la fonction ne lit ni ne modifie les données familiales ; la clé publishable est conçue pour être publique.
 on:
   schedule:
     - cron: '17 9,16 * * *'
