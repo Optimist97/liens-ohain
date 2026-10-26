@@ -1,5 +1,7 @@
--- Lightweight API activity check for Supabase's Free plan.
--- This function returns no family data and performs no writes.
+-- Objectif : produire une requête API légère pour le projet Supabase Free.
+-- Fonctionnement : lire l'horloge PostgreSQL et renvoyer un booléen, sans accéder aux tables ni modifier de données.
+-- Sécurité : exécution avec les droits de l'appelant, schéma de recherche vide et résultat sans donnée familiale.
+-- Accès : autoriser uniquement les rôles anon et authenticated à appeler cette fonction.
 create or replace function public.activity_check()
 returns boolean
 language sql
