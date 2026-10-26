@@ -1,0 +1,25 @@
+name: Supabase activity check
+
+on:
+  schedule:
+    - cron: '17 9,16 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send a minimal database request
+        env:
+          SUPABASE_URL: https://kbwenuerbzahbjxqbarq.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_gegMBE-98ZZz7mldq2GMjQ_6ogNmvWk
+        run: >-
+          curl --fail --silent --show-error --max-time 20 --output /dev/null
+          --request POST
+          --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}"
+          --header 'Content-Type: application/json'
+          --data '{}'
+          "${SUPABASE_URL}/rest/v1/rpc/activity_check"
